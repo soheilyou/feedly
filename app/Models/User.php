@@ -44,4 +44,12 @@ class User extends Authenticatable
     {
         $this->attributes["password"] = Hash::make($value);
     }
+
+    /**
+     * @param $value
+     */
+    public function setEmailAttribute($value)
+    {
+        $this->attributes["email"] = trim(strtolower($value));
+    }
 }

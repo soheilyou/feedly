@@ -19,8 +19,11 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
      * @param string $password
      * @return mixed
      */
-    public function createUser(string $name, string $email, string $password)
-    {
+    public function createUser(
+        string $name,
+        string $email,
+        string $password
+    ): User {
         return $this->create([
             "name" => $name,
             "email" => $email,

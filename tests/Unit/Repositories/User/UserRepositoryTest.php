@@ -25,7 +25,7 @@ class UserRepositoryTest extends TestCase
     public function testCreateUser()
     {
         $name = 'testName';
-        $email = 'testEmail';
+        $email = 'testEmail@gmail.com';
         $password = 'testPassword';
         $user = $this->userRepository->createUser($name, $email, $password);
         $this->assertEquals($name, $user->name);
@@ -37,7 +37,7 @@ class UserRepositoryTest extends TestCase
     public function testCreateUserCheckDatabase()
     {
         $name = 'testName';
-        $email = 'testEmail';
+        $email = 'testEmail@gmail.com';
         $password = 'testPassword';
         $user = $this->userRepository->createUser($name, $email, $password);
         // check database
