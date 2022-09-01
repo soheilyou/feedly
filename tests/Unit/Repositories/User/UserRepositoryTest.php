@@ -29,7 +29,7 @@ class UserRepositoryTest extends TestCase
         $password = 'testPassword';
         $user = $this->userRepository->createUser($name, $email, $password);
         $this->assertEquals($name, $user->name);
-        $this->assertEquals($email, $user->email);
+        $this->assertEquals(strtolower($email), $user->email);
         $this->assertTrue(Hash::check($password, $user->password));
         $this->assertTrue($user instanceof User);
     }
@@ -43,7 +43,7 @@ class UserRepositoryTest extends TestCase
         // check database
         $this->assertDatabaseHas('users', [
             'name' => $name,
-            'email' => $email,
+            'email' => strtolower($email),
             'password' => $user->password
         ]);
     }
