@@ -25,6 +25,9 @@ Route::prefix('v1.0')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('feed')->group(function () {
             Route::post('/add', [FeedController::class, 'addFeed']);
+            Route::post('/markAsRead', [FeedController::class, 'markAsRead']);
+            Route::post('/bookmark', [FeedController::class, 'bookmark']);
+            Route::post('/getUnReadItemsCount', [FeedController::class, 'getUnReadItemsCount']);
         });
     });
 });

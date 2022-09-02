@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Feed extends Model
 {
@@ -33,5 +34,13 @@ class Feed extends Model
     public function setImageAttribute($value)
     {
         $this->attributes["image"] = trim(strtolower($value));
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
     }
 }
