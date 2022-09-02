@@ -15,17 +15,17 @@ class FeedRepository extends BaseRepository implements FeedRepositoryInterface
     }
 
     /**
-     * @param string $name
      * @param string $url
-     * @param string $rssPath
-     * @param string $image
+     * @param ?string $name
+     * @param ?string $rssPath
+     * @param ?string $image
      * @return Feed
      */
     public function addFeed(
-        string $name,
         string $url,
-        string $rssPath,
-        string $image
+        ?string $name = null,
+        ?string $rssPath = null,
+        ?string $image = null
     ): Feed {
         return $this->create([
             "name" => $name,

@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\App\V10\AuthController;
-use App\Http\Controllers\Service\FeedController;
+use App\Http\Controllers\App\V10\FeedController;
+use App\Http\Controllers\Service\FeedController as ServiceFeedController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,15 +17,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::prefix('v1.0')->group(function () {
     Route::post('/register', [AuthController::class, 'register'])->name('register');
     Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::prefix('feed')->group(function () {
+            Route::post('/add', [FeedController::class, 'addFeed']);
+        });
+    });
 });
 
 Route::middleware('internalServiceAuth')->prefix('services')->group(function () {
-    Route::post('/crawler/add-new-items', [FeedController::class, 'addNewItems']);
+    Route::post('/crawler/add-new-items', [ServiceFeedController::class, 'addNewItems']);
 });

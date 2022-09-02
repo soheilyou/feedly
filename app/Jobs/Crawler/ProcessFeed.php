@@ -2,7 +2,10 @@
 
 namespace App\Jobs\Crawler;
 
+use App\Classes\Crawler\Crawler;
+use App\Classes\Crawler\Exceptions\CrawlerException;
 use App\Jobs\Traits\CrawlerDispatcher;
+use App\Repositories\Feed\FeedRepositoryInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -33,9 +36,15 @@ class ProcessFeed implements ShouldQueue
      * Execute the job.
      *
      * @return void
+     * @throws CrawlerException
      */
-    public function handle()
-    {
-        //
+    public function handle(
+        Crawler $crawler,
+        FeedRepositoryInterface $feedRepository
+    ) {
+        $crawler->addFeed(
+            $this->feedId,
+            $feedRepository->findOrFail($this->feedId)->url
+        );
     }
 }
