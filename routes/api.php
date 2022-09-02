@@ -23,3 +23,7 @@ Route::prefix('v1.0')->group(function () {
     Route::post('/register', [AuthController::class, 'register'])->name('register');
     Route::post('/login', [AuthController::class, 'login'])->name('login');
 });
+
+Route::middleware('internalServiceAuth')->prefix('services')->group(function () {
+    Route::post('/crawler/add-new-items', [AuthController::class, 'register']);
+});

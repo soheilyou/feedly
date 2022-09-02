@@ -52,4 +52,9 @@ class FeedRepository extends BaseRepository implements FeedRepositoryInterface
             "pub_date" => $pubDate,
         ]);
     }
+
+    public function saveBulkItems(array $items)
+    {
+        return Item::insert($items);
+    }
 }
