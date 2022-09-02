@@ -7,7 +7,7 @@ use App\Models\Feed;
 use App\Models\FeedUser;
 use App\Models\Item;
 use App\Models\ReadItem;
-use App\Models\RoleUser;
+use App\Models\User;
 use App\Repositories\Base\BaseRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
@@ -66,6 +66,11 @@ class FeedRepository extends BaseRepository implements FeedRepositoryInterface
         return Item::insert($items);
     }
 
+    public function getFeeds(User $user)
+    {
+        return $user->feeds()->get();
+    }
+
     /**
      * @param int $userId
      * @param int $feedId
@@ -115,7 +120,7 @@ class FeedRepository extends BaseRepository implements FeedRepositoryInterface
         return Cache::delete(self::getFeedUserCacheKey($userId, $feedId));
     }
 
-    public function getUnReadItemsCount(int $userId, int $feedId): int
+    public static function getUnReadItemsCount(int $userId, int $feedId): int
     {
         return Cache::rememberForever(
             self::getFeedUserCacheKey($userId, $feedId),

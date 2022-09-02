@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\App\V10;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\FeedResource;
 use App\Repositories\Feed\FeedRepository;
 use App\Repositories\Feed\FeedRepositoryInterface;
 use Illuminate\Http\JsonResponse;
@@ -67,5 +68,12 @@ class FeedController extends Controller
             $user->id,
             $request->feed_id
         );
+    }
+
+    public function getFeeds()
+    {
+        $user = Auth::user();
+        // TODO :: use pagination
+        return FeedResource::collection($this->feedRepository->getFeeds($user));
     }
 }

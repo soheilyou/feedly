@@ -23,11 +23,11 @@ Route::prefix('v1.0')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::prefix('feed')->group(function () {
-            Route::post('/add', [FeedController::class, 'addFeed']);
+        Route::prefix('feeds')->group(function () {
+            Route::get('/', [FeedController::class, 'getFeeds']);
+            Route::post('/', [FeedController::class, 'addFeed']);
             Route::post('/markAsRead', [FeedController::class, 'markAsRead']);
             Route::post('/bookmark', [FeedController::class, 'bookmark']);
-            Route::post('/getUnReadItemsCount', [FeedController::class, 'getUnReadItemsCount']);
         });
     });
 });
