@@ -43,6 +43,7 @@ class ProcessFeedSize implements ShouldQueue
         if ($feedSubscribersCount > 100000) {
             // TODO :: read from config
             if (!$feed->is_huge) {
+                // TODO :: clean all previous caches for this feed
                 $feed->is_huge = true;
                 $feed->save();
             }

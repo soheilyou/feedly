@@ -122,24 +122,33 @@ class FeedRepository extends BaseRepository implements FeedRepositoryInterface
 
     public static function getUnReadItemsCount(int $userId, int $feedId): int
     {
+        $cacheKey = self::getFeedUserCacheKey($userId, $feedId);
+        $cached = Cache::get($cacheKey);
+        if ($cached) {
+            return $cached;
+        }
+        $feed = Feed::find($cached);
+        $subscribedAt = FeedUser::where("user_id", $userId)
+            ->where("feed_id", $feedId)
+            ->firstOrFail()->created_at;
+        $count = Item::where("feed_id", $feedId)
+            ->where("created_at", ">", $subscribedAt)
+            ->whereNotExists(function ($query) use ($userId) {
+                $query
+                    ->select(DB::raw(1))
+                    ->from("read_items")
+                    ->whereRaw("read_items.item_id = items.id")
+                    ->where("user_id", $userId);
+            })
+            ->limit(1001) // TODO :: read from config
+            ->count();
+        // huge feeds must not be cached
+        if ($feed->is_huge) {
+            return $count;
+        }
         return Cache::rememberForever(
             self::getFeedUserCacheKey($userId, $feedId),
-            function () use ($userId, $feedId) {
-                $subscribedAt = FeedUser::where("user_id", $userId)
-                    ->where("feed_id", $feedId)
-                    ->firstOrFail()->created_at;
-                return Item::where("feed_id", $feedId)
-                    ->where("created_at", ">", $subscribedAt)
-                    ->whereNotExists(function ($query) use ($userId) {
-                        $query
-                            ->select(DB::raw(1))
-                            ->from("read_items")
-                            ->whereRaw("read_items.item_id = items.id")
-                            ->where("user_id", $userId);
-                    })
-                    ->limit(1001) // TODO :: read from config
-                    ->count();
-            }
+            $count
         );
     }
 
