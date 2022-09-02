@@ -18,6 +18,7 @@ class CreateFeedsTable extends Migration
             $table->string("name");
             $table->string("url")->unique();
             $table->string("rss_path");
+            $table->string("image", 500)->nullable();
             $table->timestamps();
         });
     }
