@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\App\V10\AuthController;
+use App\Http\Controllers\Service\FeedController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,5 +26,5 @@ Route::prefix('v1.0')->group(function () {
 });
 
 Route::middleware('internalServiceAuth')->prefix('services')->group(function () {
-    Route::post('/crawler/add-new-items', [AuthController::class, 'register']);
+    Route::post('/crawler/add-new-items', [FeedController::class, 'addNewItems']);
 });
