@@ -24,7 +24,7 @@ class FeedController extends Controller
             "items.*.feed_id" => "required|exists:feeds,id",
             "items.*.pub_date" => "required",
             "items.*.title" => "required|max:500",
-            "items.*.link" => "required",
+            "items.*.link" => "required|max:500",
             "items.*.description" => "required",
         ]);
         if ($this->feedRepository->saveBulkItems($request->items)) {
