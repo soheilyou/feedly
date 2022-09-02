@@ -142,4 +142,9 @@ class FeedRepository extends BaseRepository implements FeedRepositoryInterface
             }
         );
     }
+
+    public function getFeedSubscribersCount(int $feedId): int
+    {
+        return FeedUser::where("feed_id", $feedId)->count();
+    }
 }

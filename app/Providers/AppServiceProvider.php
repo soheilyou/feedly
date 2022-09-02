@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Feed;
+use App\Models\FeedUser;
 use App\Observers\FeedObserver;
+use App\Observers\FeedUserObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Feed::observe(FeedObserver::class);
+        FeedUser::observe(FeedUserObserver::class);
     }
 }

@@ -19,6 +19,12 @@ class CreateFeedsTable extends Migration
             $table->string("url")->unique();
             $table->string("rss_path")->nullable();
             $table->string("image", 500)->nullable();
+            $table
+                ->boolean("is_huge")
+                ->default(false)
+                ->comment(
+                    "it means this feed has more than 100000 subscribers"
+                );
             $table->timestamps();
         });
     }
